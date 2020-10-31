@@ -14,10 +14,11 @@ class SandPile():
 
 
     def AddSand(self,x,y,amount):
+        #Add specified amount of sand to the specified location
         self.board[x,y] = amount
 
     def Fall(self, x,y):
-
+        #Makes the specified pile collapse and distribute it's sand to the tiles around it
         Grains = self.board[x, y] // self.pilesize
         self.board[x, y] = self.board[x, y] % self.pilesize
 
@@ -32,7 +33,7 @@ class SandPile():
 
         self.board[x,y-1]+=Grains
 
-
+        #Clears a 1 space border around the board to insure there are no Index errors
         self.board[0]=0
         self.board[-1]=0
         self.board[:,0]=0
@@ -43,8 +44,8 @@ class SandPile():
 
 
     def Topple(self):
-
-        start = default_timer()
+        #Checks if there are any piles that are too large
+        start = default_timer() #Times the process
         while np.max(self.board) >= self.pilesize:
 
 
@@ -57,9 +58,10 @@ class SandPile():
         print(duration)
 
     def ShowGraph(self):
-        map = plot.pcolor(test.board)
+        #Displays the final product
+        map = plot.pcolor(self.board)
         plot.axis("off")
-        plot.imshow(test.board)
+        plot.imshow(self.board)
         plot.colorbar(map, ticks=range(self.pilesize))
         plot.show()
 
@@ -77,18 +79,9 @@ class SandPile():
 
 if __name__== '__main__':
     test = SandPile(4,501,501)
-
-    #test.AddSand(101,101,100000)
-    #test.AddSand(401,401,100000)
-    #test.AddSand(101,401,100000)
-    #test.AddSand(401,101,100000)
     test.AddSand(250,250,100000)
 
     test.Topple()
-
-
-
-
 
     test.ShowGraph()
 
